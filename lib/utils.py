@@ -52,9 +52,6 @@ def load_FGL_data(args):
     elif args.dataset == "CiteSeer":
         num_features = 3703
         num_labels = 6
-    elif args.dataset == "PubMed":
-        num_features = 500
-        num_labels = 3
     else:
         print("Please input the information of new dataset !")
         

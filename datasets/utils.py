@@ -54,19 +54,15 @@ def split_train(data, dataset, data_path, ratio_train, mode, n_clients):
     data.test_mask.fill_(False)
     data.val_mask.fill_(False)    
     
-    permuted_indices = torch.randperm(n_data)
-            
+    permuted_indices = torch.randperm(n_data)        
     train_indices = permuted_indices[:n_train]
     test_indices = permuted_indices[n_train:n_train+n_test]
     val_indices = permuted_indices[n_train+n_test:]
-
-
 
     data.train_mask[train_indices] = True
     data.test_mask[test_indices] = True
     data.val_mask[val_indices] = True
 
-    
     torch_save(data_path, f'{dataset}_{mode}/{n_clients}/train.pt', {'data': data})
     torch_save(data_path, f'{dataset}_{mode}/{n_clients}/test.pt', {'data': data})
     torch_save(data_path, f'{dataset}_{mode}/{n_clients}/val.pt', {'data': data})

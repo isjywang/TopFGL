@@ -44,10 +44,6 @@ def split_subgraphs_fast(n_clients, data, dataset):
     print(f'Graph partition done using Metis. Number of partitions: {len(list(set(membership)))}, Number of cuts: {n_cuts}')
         
     edge_index = data.edge_index
-    
-    # for fedsage
-    torch_save(data_path, f'{dataset}_disjoint/{n_clients}/membership.pt',membership )
-    print("membership save over")
 
     for client_id in range(n_clients):
         client_indices = np.where(np.array(membership) == client_id)[0]
@@ -96,8 +92,7 @@ def split_subgraphs_fast(n_clients, data, dataset):
 for dataset in D:
     for n_clients in clients:
         generate_data(dataset=dataset, n_clients=n_clients)
-import os 
-os._exit(0)
+
 
 
 
