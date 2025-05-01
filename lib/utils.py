@@ -98,6 +98,6 @@ def set_config(args):
     ## fedtop settings
     args.k = 3 + int(min(args.clients,20)/6) if args.dataset in ['Cora','CiteSeer','CoraFull'] else 8
 
-    ## for large-client-nums
+    ## for large-scale graphs
     args.repair_fre = 5 if args.dataset in ['Ogbn','penn94'] else args.repair_fre
     args.k = 12 if args.dataset in ["pokec","penn94"] else args.k
