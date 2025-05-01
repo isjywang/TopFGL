@@ -39,6 +39,45 @@ def get_data(dataset, data_path):
         data = datasets.Coauthor(data_path, dataset, transform=T.NormalizeFeatures())[0]
         data.train_mask, data.val_mask, data.test_mask \
             = torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool)
+    elif dataset in ['penn94']:
+        ## for the download, see https://github.com/CUAI/Non-Homophily-Large-Scale/blob/master/dataset.py#L233
+        mat = loadmat('./Penn94.mat')
+        A = mat['A'].tocsr().tocoo()
+        row = torch.from_numpy(A.row).to(torch.long)
+        col = torch.from_numpy(A.col).to(torch.long)
+        edge_index = torch.stack([row, col], dim=0)
+    
+        metadata = torch.from_numpy(mat['local_info'].astype('int64'))
+    
+        xs = []
+        y = metadata[:, 1] - 1  # gender label, -1 means unlabeled
+        x = torch.cat([metadata[:, :1], metadata[:, 2:]], dim=-1)
+        for i in range(x.size(1)):
+            _, out = x[:, i].unique(return_inverse=True)
+            xs.append(one_hot(out))
+        x = torch.cat(xs, dim=-1)
+    
+        data = Data(x=x, edge_index=edge_index, y=y)
+        data.train_mask, data.val_mask, data.test_mask \
+            = torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool)
+   
+    elif dataset in ['pokec']:
+        ## for the download, see https://github.com/CUAI/Non-Homophily-Large-Scale/blob/master/dataset.py#L233
+        fulldata = loadmat('./pokec.mat')
+        edge_index = torch.tensor(fulldata['edge_index'], dtype=torch.long)
+        node_feat = torch.tensor(fulldata['node_feat']).float()
+        label = fulldata['label'].flatten()
+        print("label:",label)
+        for i in range(len(label)):
+            if label[i] == -1:
+                label[i] = 2
+        label = torch.tensor(label, dtype=torch.long)  # gender label, -1 means unlabeled
+        edge_index = to_undirected(edge_index, num_nodes=len(label))
+        
+        data = Data(x=node_feat, edge_index=edge_index, y=label)
+        data.train_mask, data.val_mask, data.test_mask \
+            = torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool)
+           
     else:
         print("please input correct dataset name!")
     return data

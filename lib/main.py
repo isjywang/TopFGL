@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--clients',type=int, default= 20 )
     parser.add_argument('--mode',type=str, default='disjoint')
     
-    parser.add_argument('--repair_fre',type=float, default=0.25)
+    parser.add_argument('--repair_fre',type=float, default=3)
     parser.add_argument('--warm_epoch',type=float, default=0.3)
     parser.add_argument('--k',type=int, default=8)
     parser.add_argument('--ccs', type=int, default=10)

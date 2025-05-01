@@ -52,6 +52,33 @@ def load_FGL_data(args):
     elif args.dataset == "CiteSeer":
         num_features = 3703
         num_labels = 6
+    elif args.dataset == "PubMed":
+        num_features = 500
+        num_labels = 3
+    elif args.dataset == 'Computers':
+        num_features = 767
+        num_labels = 10       
+    elif args.dataset == 'Photo':
+        num_features = 745
+        num_labels = 8   
+    elif args.dataset == 'Ogbn':
+        num_features = 128
+        num_labels = 40
+    elif args.dataset == 'CS':
+        num_features = 6805
+        num_labels = 15    
+    elif args.dataset == 'Physics':
+        num_features = 8415
+        num_labels = 5            
+    elif args.dataset == 'CoraFull':
+        num_features = 8710
+        num_labels = 70  
+    elif args.dataset == 'pokec':
+        num_features = 65
+        num_labels = 3 ## there exists some unlabeled node (label -1)
+    elif args.dataset == 'penn94':
+        num_features = 4814
+        num_labels = 3 ## there exists some unlabeled node (label -1)
     else:
         print("Please input the information of new dataset !")
         
@@ -69,8 +96,8 @@ def set_config(args):
     args.local_epoch = 4 if args.dataset in ['CoraFull', 'Photo', 'Computers'] else 2
     
     ## fedtop settings
-    args.repair_fre = 5 if args.dataset in ['Ogbn','penn94'] else 3
     args.k = 3 + int(min(args.clients,20)/6) if args.dataset in ['Cora','CiteSeer','CoraFull'] else 8
 
     ## for large-client-nums
+    args.repair_fre = 5 if args.dataset in ['Ogbn','penn94'] else args.repair_fre
     args.k = 12 if args.dataset in ["pokec","penn94"] else args.k
