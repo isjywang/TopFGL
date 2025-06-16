@@ -41,7 +41,7 @@ def get_data(dataset, data_path):
             = torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool), torch.zeros(data.num_nodes, dtype=torch.bool)
     elif dataset in ['penn94']:
         ## for the download, see https://github.com/CUAI/Non-Homophily-Large-Scale/blob/master/dataset.py#L233
-        mat = loadmat('./Penn94.mat')
+        mat = loadmat('./Penn94.mat') ## change to your path
         A = mat['A'].tocsr().tocoo()
         row = torch.from_numpy(A.row).to(torch.long)
         col = torch.from_numpy(A.col).to(torch.long)
@@ -63,7 +63,7 @@ def get_data(dataset, data_path):
    
     elif dataset in ['pokec']:
         ## for the download, see https://github.com/CUAI/Non-Homophily-Large-Scale/blob/master/dataset.py#L233
-        fulldata = loadmat('./pokec.mat')
+        fulldata = loadmat('./pokec.mat') ## change to your path
         edge_index = torch.tensor(fulldata['edge_index'], dtype=torch.long)
         node_feat = torch.tensor(fulldata['node_feat']).float()
         label = fulldata['label'].flatten()
