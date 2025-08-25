@@ -10,7 +10,7 @@ from torch_geometric.utils import to_dense_adj, dense_to_sparse, to_networkx, is
 from utils import get_data, split_train, torch_save, split_train_reddit
 
 data_path = './' ## change to your data path
-ratio_train = 0.2
+ratio_train = 0.2 ## the ratio of the training set
 seed = 2025
 clients = [10, 20]
 D = ['Cora', 'CiteSeer'] 
@@ -25,7 +25,7 @@ def torch_load(base_dir, filename):
     
 def generate_data(dataset, n_clients):
     ## get data
-    data = split_train(get_data(dataset, data_path), dataset, data_path, ratio_train, 'disjoint', n_clients)
+    data = split_train(get_data(dataset, data_path), dataset, data_path, ratio_train, 'heterogeneity', n_clients)
     ## split data
     split_subgraphs_fast(n_clients, data, dataset)
         
@@ -83,7 +83,7 @@ def split_subgraphs_fast(n_clients, data, dataset):
         
         assert torch.sum(client_train_mask).item() > 0
 
-        torch_save(data_path, f'{dataset}_disjoint/{n_clients}/partition_{client_id}.pt', {
+        torch_save(data_path, f'{dataset}_heterogeneity/{n_clients}/partition_{client_id}.pt', {
             'client_data': client_data,
             'client_id': client_id
         })

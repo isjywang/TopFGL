@@ -159,22 +159,23 @@ def init_topfgl(g):
     return g
 
         
-# prepare for topfgl -- topological embedding init, run before the training.
-# for mode in ['disjoint']:
-#     for dataset in ['Cora']:
-#         for clients in [10,20]:
+## [Data prepare for topfgl -- topological embedding init. Please run the below codes before FGL training.]
+## [After finished this initialization, please keep the below codes closed throughout the entire FGL training.]
+# for mode in ['heterogeneity']:  ## Change to your data mode
+#     for dataset in ['Cora']:  ## Change to your dataset name
+#         for clients in [10,20]: ## Client Counts
 #             print("now clients num is ",clients)    
 #             for c in range(clients):
-#                 data_path = "../datasets/"
-#                 client_graph = get_data(c,clients,dataset,mode)[0]
+#                 data_path = "../datasets/" ## Change to your datapath
+#                 client_graph = get_data(c,clients,dataset,mode)[0] 
 #                 print("client ",c," get data over")
 #                 client_graph = init_topfgl(client_graph)
+#                 ## You can change the saving information here.
 #                 torch_save(data_path, f'{dataset}_{mode}/{clients}/init_{c}.pt', {
 #                         'client_data': client_graph,
 #                         'client_id': c
-#                     })
+#                     }) 
 #                 print("client ",c," over")
-
 #         print("dataset:",dataset," mode:",mode," over")
 
 # import os
